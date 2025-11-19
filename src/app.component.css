@@ -1,151 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
 
 :host {
   font-family: 'Vazirmatn', sans-serif;
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Custom Scrollbar for Sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #18181b;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
 }
 
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
-}
+/* --- Floor Plan Styles (Minimal/Blueprint) --- */
+/* Colors mapped to Slate/Zinc palette with slight tint */
+.room-type-living { background-color: #334155; border-color: #475569; }
+.room-type-kitchen { background-color: #475569; border-color: #64748b; }
+.room-type-bedroom { background-color: #3f3f46; border-color: #52525b; }
+.room-type-bathroom { background-color: #27272a; border-color: #3f3f46; }
+.room-type-staircase { background-color: #18181b; border-color: #27272a; background-image: linear-gradient(45deg, #27272a 25%, transparent 25%, transparent 50%, #27272a 50%, #27272a 75%, transparent 75%, transparent); background-size: 10px 10px;}
+.room-type-balcony { background-color: transparent; border-color: #52525b; border-style: dashed; }
+.room-type-void { background-color: #09090b; border-color: #27272a; border-style: dotted; }
+.room-type-hallway { background-color: transparent; border-color: transparent; }
 
-/* --- Floor Plan Styles --- */
-.room-type-living { --room-color: 5, 150, 105; --room-border: 16, 185, 129; }
-.room-type-kitchen { --room-color: 217, 119, 6; --room-border: 245, 158, 11; }
-.room-type-bedroom { --room-color: 37, 99, 235; --room-border: 59, 130, 246; }
-.room-type-bathroom { --room-color: 124, 58, 237; --room-border: 139, 92, 246; }
-.room-type-staircase { --room-color: 107, 114, 128; --room-border: 156, 163, 175; }
-.room-type-balcony { --room-color: 2, 132, 199; --room-border: 14, 165, 233; }
-.room-type-void { --room-color: 17, 24, 39; --room-border: 75, 85, 99; }
-.room-type-hallway { --room-color: 75, 85, 99; --room-border: 107, 114, 128; }
-
-/* --- 2D Plan Styles --- */
-.room-type-living { background-color: rgba(var(--room-color), 0.4); border: 1px solid rgba(var(--room-border), 0.6); }
-.room-type-kitchen { background-color: rgba(var(--room-color), 0.4); border: 1px solid rgba(var(--room-border), 0.6); }
-.room-type-bedroom { background-color: rgba(var(--room-color), 0.4); border: 1px solid rgba(var(--room-border), 0.6); }
-.room-type-bathroom { background-color: rgba(var(--room-color), 0.4); border: 1px solid rgba(var(--room-border), 0.6); }
-.room-type-staircase { background-color: rgba(var(--room-color), 0.4); border: 1px solid rgba(var(--room-border), 0.6); }
-.room-type-balcony { background-color: rgba(var(--room-color), 0.3); border: 1px solid rgba(var(--room-border), 0.5); }
-.room-type-void { background-color: rgba(var(--room-color), 0.5); border: 1px dashed rgba(var(--room-border), 0.8); }
-.room-type-hallway { background-color: rgba(var(--room-color), 0.3); border: 1px solid rgba(var(--room-border), 0.5); }
-
-
-/* --- 3D Plan Styles --- */
-.scene {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1500px;
-  min-height: 450px;
-  width: 100%;
-  padding: 1rem;
-  background: radial-gradient(ellipse at center, rgba(31, 41, 55, 0.3), rgba(17, 24, 39, 0) 70%);
-}
-
-.plot-3d {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  transform-style: preserve-3d;
-  transform: rotateX(60deg) rotateZ(-45deg);
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  animation: rotate-scene 35s infinite linear;
-}
-
-.scene:hover .plot-3d {
-  animation-play-state: paused;
-  transform: rotateX(50deg) rotateZ(-30deg) scale(1.05);
-}
-
-@keyframes rotate-scene {
-  from { transform: rotateX(60deg) rotateZ(-360deg); }
-  to { transform: rotateX(60deg) rotateZ(0deg); }
-}
-
-.land-base {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(31, 41, 55, 0.7);
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
-  transform: translateZ(-3px);
-  border: 1px solid rgba(75, 85, 99, 0.5);
-}
-
-.room-3d {
-  --room-height: 40px;
-  position: absolute;
-  top: var(--y);
-  left: var(--x);
-  width: var(--w);
-  height: var(--h);
-  transform-style: preserve-3d;
-}
-
-.face {
-  position: absolute;
-  box-sizing: border-box;
-}
-
-.face.top {
-  width: 100%;
-  height: 100%;
-  transform: translateZ(var(--room-height));
-  background-color: rgba(var(--room-color), 0.6);
-  border: 1px solid rgba(var(--room-border), 0.7);
-}
-.room-type-void .face.top {
-   background-color: rgba(var(--room-color), 0.5); 
-   border: 1px dashed rgba(var(--room-border), 0.8);
-}
-
-.face:not(.top) {
-  background-color: rgba(var(--room-color), 0.4);
-}
-
-.face.front {
-  width: 100%;
-  height: var(--room-height);
-  bottom: 0;
-  transform-origin: bottom;
-  transform: rotateX(90deg);
-}
-
-.face.back {
-  width: 100%;
-  height: var(--room-height);
-  top: 0;
-  transform-origin: top;
-  transform: rotateX(-90deg);
-}
-
-.face.left {
-  height: 100%;
-  width: var(--room-height);
-  left: 0;
-  transform-origin: left;
-  transform: rotateY(-90deg);
-}
-
-.face.right {
-  height: 100%;
-  width: var(--room-height);
-  right: 0;
-  transform-origin: right;
-  transform: rotateY(90deg);
-}
-
-/* Ensure inputs with type number don't have spinners */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
