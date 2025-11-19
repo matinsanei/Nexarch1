@@ -1,0 +1,214 @@
+
+<div class="min-h-screen bg-gray-900 text-gray-200 flex flex-col items-center p-4 sm:p-8 font-['Vazirmatn']">
+  <header class="w-full max-w-6xl text-center mb-8">
+    <h1 class="text-4xl sm:text-5xl font-bold text-cyan-400">دستیار هوشمند طراحی پلان</h1>
+    @if (step() === 'input') {
+      <p class="text-lg text-gray-400 mt-2">ابعاد زمین و مشخصات همسایگی را وارد کنید تا هوش مصنوعی بهترین پلان را طراحی کند.</p>
+    } @else {
+      <p class="text-lg text-gray-400 mt-2">تحلیل هوشمند بر اساس قوانین معماری و شهرسازی ایران.</p>
+    }
+  </header>
+
+  <main class="w-full max-w-6xl">
+    @switch (step()) {
+      @case ('input') {
+        <div class="w-full max-w-4xl mx-auto bg-gray-800 rounded-2xl shadow-2xl shadow-cyan-500/10 p-6 sm:p-8 animate-fade-in">
+          <!-- Input Section -->
+          <section>
+            <!-- Land Dimensions -->
+            <h2 class="text-xl font-bold text-cyan-400 border-b-2 border-cyan-500/20 pb-2 mb-6">۱. ابعاد زمین</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+              <div>
+                <label for="landWidth" class="flex items-center mb-2 text-sm font-medium text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 1v4m0 0h-4m4 0l-5-5"/></svg>
+                  عرض زمین (متر)
+                </label>
+                <input id="landWidth" type="number" min="1" [(ngModel)]="landWidth"
+                      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 transition">
+              </div>
+              <div>
+                <label for="landDepth" class="flex items-center mb-2 text-sm font-medium text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l4-4m0 0l4 4m-4-4v18"/></svg>
+                  طول زمین (متر)
+                </label>
+                <input id="landDepth" type="number" min="1" [(ngModel)]="landDepth"
+                      class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 transition">
+              </div>
+            </div>
+
+            <!-- Neighborhood Context -->
+            <h2 class="text-xl font-bold text-cyan-400 border-b-2 border-cyan-500/20 pb-2 mb-6">۲. مشخصات همسایگی</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                 <label for="neighborWest" class="flex items-center mb-2 text-sm font-medium text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m-1 4h1m5-4h1m-1 4h1m-1-8h1"/></svg>
+                  همسایه غربی (تعداد طبقات)
+                </label>
+                 <input id="neighborWest" type="number" min="0" [(ngModel)]="neighborWestFloors"
+                       class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 transition">
+              </div>
+              <div>
+                 <label for="neighborEast" class="flex items-center mb-2 text-sm font-medium text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m-1 4h1m5-4h1m-1 4h1m-1-8h1"/></svg>
+                  همسایه شرقی (تعداد طبقات)
+                </label>
+                 <input id="neighborEast" type="number" min="0" [(ngModel)]="neighborEastFloors"
+                       class="bg-gray-700 border border-gray-600 text-gray-200 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block w-full p-2.5 transition">
+              </div>
+            </div>
+            
+            <!-- Error Message -->
+            @if (errorMessage(); as error) {
+              <div class="bg-red-900/50 border border-red-500 text-red-300 px-4 py-3 rounded-lg relative mt-6" role="alert">
+                <strong class="font-bold">خطا: </strong>
+                <span class="block sm:inline">{{ error }}</span>
+              </div>
+            }
+
+            <!-- Action Button -->
+            <div class="mt-10 flex justify-end">
+              <button (click)="analyzePlot()"
+                      class="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-800 font-medium rounded-lg text-base px-8 py-3 text-center transition duration-300 ease-in-out flex items-center justify-center">
+                طراحی پلان با هوش مصنوعی
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              </button>
+            </div>
+          </section>
+        </div>
+      }
+      @case ('loading') {
+        <div class="text-center py-16 px-6 bg-gray-800/50 rounded-lg animate-fade-in flex flex-col items-center justify-center min-h-[400px]">
+          <svg class="animate-spin h-12 w-12 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <h3 class="mt-4 text-xl font-medium text-gray-300">در حال طراحی...</h3>
+          <p class="mt-2 text-sm text-gray-400 transition-opacity duration-500">{{ currentLoadingMessage() }}</p>
+        </div>
+      }
+      @case ('result') {
+        @if (analysisResult(); as result) {
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-fade-in">
+            <!-- Left Sidebar: Analysis Details -->
+            <aside class="lg:col-span-1 bg-gray-800 rounded-2xl shadow-lg p-6 flex flex-col">
+              <h3 class="text-2xl font-bold text-cyan-400 mb-4 border-b-2 border-cyan-500/30 pb-2">نتایج تحلیل</h3>
+              <div class="space-y-4 mb-6">
+                <div class="bg-gray-700/50 p-3 rounded-md">
+                  <p class="text-sm text-gray-400">تعداد طبقات بهینه</p>
+                  <p class="text-xl font-bold text-cyan-300">{{ result.buildingSummary.totalFloors }} طبقه</p>
+                </div>
+                <div class="bg-gray-700/50 p-3 rounded-md">
+                  <p class="text-sm text-gray-400">تعداد واحد در هر طبقه</p>
+                  <p class="text-xl font-bold text-cyan-300">{{ result.buildingSummary.unitsPerFloor }} واحد</p>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold text-gray-300 mt-4">خلاصه طرح:</h4>
+                  <p class="text-gray-400 text-sm leading-relaxed">{{ result.buildingSummary.summary }}</p>
+                </div>
+              </div>
+              
+              <!-- Floor Selector -->
+              @if (viewMode() !== 'building-3d' && result.floorPlans.length > 1) {
+                <div class="mt-auto pt-6 border-t border-gray-700">
+                  <h4 class="text-lg font-semibold text-gray-300 mb-3">انتخاب طبقه:</h4>
+                  <div class="flex flex-wrap gap-2">
+                    @for (floor of result.floorPlans; track floor.level; let i = $index) {
+                      <button (click)="selectedFloor.set(i)" 
+                              [class.bg-cyan-600]="selectedFloor() === i"
+                              [class.bg-gray-700]="selectedFloor() !== i"
+                              class="text-white hover:bg-cyan-700 focus:ring-4 focus:outline-none focus:ring-cyan-800 font-medium rounded-lg text-sm px-4 py-2 text-center transition">
+                        طبقه {{ floor.level === 0 ? 'همکف' : floor.level }}
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+               <button (click)="startOver()" class="mt-6 w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition duration-300 ease-in-out flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"/></svg>
+                  شروع مجدد
+                </button>
+            </aside>
+
+            <!-- Right Content: Floor Plan Visualization -->
+            <div class="lg:col-span-2 bg-gray-800 rounded-2xl shadow-lg p-6">
+              @if (currentFloorPlan(); as plan) {
+                <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                    @if (viewMode() === 'building-3d') {
+                        <h3 class="text-2xl font-bold text-cyan-400">نمای کلی ساختمان</h3>
+                    } @else {
+                        <h3 class="text-2xl font-bold text-cyan-400">پلان طبقه {{ plan.level === 0 ? 'همکف' : plan.level }}</h3>
+                    }
+                    
+                    <!-- View Mode Toggle -->
+                    <div class="flex items-center bg-gray-700 rounded-lg p-1 overflow-x-auto">
+                      <button (click)="viewMode.set('2d')" class="px-3 py-1 text-sm font-medium rounded-md transition whitespace-nowrap" [class.bg-cyan-600]="viewMode() === '2d'" [class.text-white]="viewMode() === '2d'" [class.text-gray-400]="viewMode() !== '2d'">2D</button>
+                      <button (click)="viewMode.set('3d')" class="px-3 py-1 text-sm font-medium rounded-md transition whitespace-nowrap" [class.bg-cyan-600]="viewMode() === '3d'" [class.text-white]="viewMode() === '3d'" [class.text-gray-400]="viewMode() !== '3d'">3D</button>
+                      <button (click)="viewMode.set('3d-plus')" class="px-3 py-1 text-sm font-medium rounded-md transition whitespace-nowrap" [class.bg-cyan-600]="viewMode() === '3d-plus'" [class.text-white]="viewMode() === '3d-plus'" [class.text-gray-400]="viewMode() !== '3d-plus'">3D+</button>
+                      <button (click)="viewMode.set('building-3d')" class="px-3 py-1 text-sm font-medium rounded-md transition whitespace-nowrap" [class.bg-cyan-600]="viewMode() === 'building-3d'" [class.text-white]="viewMode() === 'building-3d'" [class.text-gray-400]="viewMode() !== 'building-3d'">نمای ساختمان</button>
+                    </div>
+                </div>
+
+                @if (viewMode() === '2d') {
+                  <div class="w-full bg-gray-900/50 rounded-lg p-4">
+                    <div class="relative w-full border-2 border-dashed border-gray-600 bg-gray-800 mx-auto" [style.aspect-ratio]="landWidth() / landDepth()">
+                      <!-- Render Rooms -->
+                      @for (room of plan.rooms; track room.name) {
+                        <div [class]="'absolute flex items-center justify-center text-center p-1 rounded-[3px] transition-all duration-300 room-type-' + room.type"
+                            [style.left.%]="room.layout.x"
+                            [style.top.%]="room.layout.y"
+                            [style.width.%]="room.layout.width"
+                            [style.height.%]="room.layout.height">
+                            <div class="text-white text-[10px] sm:text-xs font-bold leading-tight">
+                                <p>{{ room.name }}</p>
+                                <p class="opacity-80 font-normal">{{ room.area }} m²</p>
+                            </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+                @if (viewMode() === '3d') {
+                  <div class="scene">
+                    <div class="plot-3d" [style.aspect-ratio]="landWidth() / landDepth()">
+                      <div class="land-base"></div>
+                      @for (room of plan.rooms; track room.name) {
+                        <div class="room-3d" 
+                             [class]="'room-type-' + room.type"
+                             [style.--x.%]="room.layout.x"
+                             [style.--y.%]="room.layout.y"
+                             [style.--w.%]="room.layout.width"
+                             [style.--h.%]="room.layout.height">
+                          <div class="face top">
+                            <div class="text-white text-[8px] sm:text-[10px] font-bold leading-tight flex flex-col justify-center items-center h-full text-center">
+                              <p>{{ room.name }}</p>
+                              <p class="opacity-80 font-normal">{{ room.area }} m²</p>
+                            </div>
+                          </div>
+                          <div class="face front"></div>
+                          <div class="face back"></div>
+                          <div class="face left"></div>
+                          <div class="face right"></div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+                @if (viewMode() === '3d-plus' || viewMode() === 'building-3d') {
+                  <app-three-d-view 
+                    [plan]="plan" 
+                    [result]="analysisResult()"
+                    [viewType]="viewMode() === 'building-3d' ? 'building' : 'single'"
+                    [landWidth]="landWidth()" 
+                    [landDepth]="landDepth()"
+                    [neighborWestFloors]="neighborWestFloors()"
+                    [neighborEastFloors]="neighborEastFloors()">
+                  </app-three-d-view>
+                }
+              }
+            </div>
+          </div>
+        }
+      }
+    }
+  </main>
+</div>

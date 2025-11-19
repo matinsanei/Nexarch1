@@ -1,0 +1,5 @@
+{
+  "name": "Architectural Plan Assistant",
+  "description": "An AI-powered tool to help architects and designers by analyzing land plots according to Iranian building regulations. It determines the buildable area and provides a canvas for initial planning.",
+  "requestFramePermissions": []
+}
